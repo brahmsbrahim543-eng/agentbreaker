@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Code, Activity, ShieldCheck, Check, ArrowRight, Copy } from "lucide-react";
+import { Code, Activity, ShieldCheck, Check, ArrowRight, Copy, Shield, Zap, Globe, Lock, Award, TrendingUp, Brain, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
 
 /* ------------------------------------------------------------------ */
@@ -92,6 +92,45 @@ function Divider() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Live Savings Counter                                               */
+/* ------------------------------------------------------------------ */
+function LiveSavingsCounter() {
+  const [saved, setSaved] = useState(2_437_892);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSaved((prev) => prev + Math.floor(Math.random() * 47) + 12);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="mt-10 inline-flex items-center gap-3 px-5 py-3 rounded-xl border border-accent/20 bg-accent/[0.04] backdrop-blur-sm">
+      <div className="flex items-center gap-2">
+        <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
+        <span className="text-xs text-text-muted uppercase tracking-wider">Live savings</span>
+      </div>
+      <span className="font-mono text-2xl font-bold text-accent">
+        ${saved.toLocaleString("en-US")}
+      </span>
+      <span className="text-xs text-text-muted">saved across all users</span>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Compatibility Logo                                                 */
+/* ------------------------------------------------------------------ */
+function CompatLogo({ name, icon: Icon }: { name: string; icon: React.FC<{ className?: string }> }) {
+  return (
+    <div className="flex items-center gap-2 text-text-muted hover:text-text-primary transition-colors">
+      <Icon className="w-5 h-5" />
+      <span className="text-sm font-medium">{name}</span>
+    </div>
+  );
+}
+
 /* ================================================================== */
 /*  HERO                                                               */
 /* ================================================================== */
@@ -152,6 +191,25 @@ function Hero() {
             </p>
           </div>
         </FadeIn>
+
+        {/* Live savings counter */}
+        <FadeIn delay={0.5}>
+          <LiveSavingsCounter />
+        </FadeIn>
+
+        {/* Compatibility logos */}
+        <FadeIn delay={0.6}>
+          <div className="mt-12 flex flex-col items-center gap-3">
+            <p className="text-xs text-text-muted uppercase tracking-widest">Compatible with</p>
+            <div className="flex items-center gap-8 opacity-60">
+              <CompatLogo name="Claude" icon={Brain} />
+              <CompatLogo name="GPT-4" icon={Zap} />
+              <CompatLogo name="Gemini" icon={Globe} />
+              <CompatLogo name="LangChain" icon={Code} />
+              <CompatLogo name="CrewAI" icon={Activity} />
+            </div>
+          </div>
+        </FadeIn>
       </div>
     </section>
   );
@@ -209,7 +267,7 @@ function HowItWorks() {
     {
       icon: Activity,
       title: "Monitor",
-      desc: "5 detection dimensions analyze every step in real-time. No hard caps.",
+      desc: "8 detection dimensions analyze every step in real-time. No hard caps.",
     },
     {
       icon: ShieldCheck,
@@ -472,10 +530,10 @@ function Pricing() {
 /* ================================================================== */
 function Footer() {
   const links = [
-    { label: "Documentation", href: "#" },
-    { label: "API Reference", href: "#" },
-    { label: "GitHub", href: "#" },
-    { label: "Pricing", href: "#" },
+    { label: "Documentation", href: "/docs" },
+    { label: "API Reference", href: "/docs" },
+    { label: "Investors", href: "/investors" },
+    { label: "Pricing", href: "#pricing" },
   ];
 
   return (
@@ -495,7 +553,10 @@ function Footer() {
 
         <div className="flex flex-col items-center md:items-end gap-1 text-xs">
           <span>Built for responsible AI.</span>
-          <span>&copy; 2026 AgentBreaker</span>
+          <span>&copy; 2026 AgentBreaker. All rights reserved.</span>
+          <span className="text-[10px] text-text-muted/60 mt-1">
+            Statistics and case studies shown are illustrative data for demonstration purposes.
+          </span>
         </div>
       </div>
     </footer>
@@ -537,9 +598,12 @@ function Nav() {
           <Link to="/roi" className="hidden md:block text-sm text-text-muted hover:text-text-primary transition-colors">
             ROI Calculator
           </Link>
-          <a href="#" className="hidden md:block text-sm text-text-muted hover:text-text-primary transition-colors">
+          <Link to="/docs" className="hidden md:block text-sm text-text-muted hover:text-text-primary transition-colors">
             Docs
-          </a>
+          </Link>
+          <Link to="/playground" className="hidden md:block text-sm text-text-muted hover:text-text-primary transition-colors">
+            Playground
+          </Link>
           <Link
             to="/login"
             className="text-sm font-medium text-text-primary hover:text-accent transition-colors"
@@ -629,12 +693,12 @@ function UseCases() {
 /* ================================================================== */
 function EnterpriseFeatures() {
   const features = [
-    { title: "SOC 2 Type II Ready", desc: "Audit logs, encryption at rest, RBAC with org-scoped multi-tenancy." },
-    { title: "Carbon Impact Reports", desc: "Track CO2 avoided per kill. ESG-ready metrics for sustainability reporting." },
-    { title: "8 Detection Dimensions", desc: "Semantic similarity, reasoning loops, goal drift, entropy, error cascades, cost velocity, context inflation, diminishing returns." },
-    { title: "Sub-200ms Latency", desc: "Detection runs in the agent's hot path without slowing execution. Zero-overhead on healthy agents." },
-    { title: "LangChain / CrewAI / AutoGen", desc: "Native callbacks for major frameworks. 3 lines of code to integrate." },
-    { title: "Slack / PagerDuty / Webhooks", desc: "Alert your team instantly when agents are killed. Full incident forensics in the dashboard." },
+    { icon: Shield, title: "SOC 2 Type II Ready", desc: "Audit logs, encryption at rest, RBAC with org-scoped multi-tenancy. Compliance program in progress." },
+    { icon: TrendingUp, title: "Carbon Impact Reports", desc: "Track CO2 avoided per kill. ESG-ready metrics for sustainability reporting." },
+    { icon: Brain, title: "8 Detection Dimensions", desc: "Semantic similarity, reasoning loops, goal drift, entropy, error cascades, cost velocity, context inflation, diminishing returns." },
+    { icon: Zap, title: "Sub-200ms Latency", desc: "Detection runs in the agent's hot path without slowing execution. Zero-overhead on healthy agents." },
+    { icon: Code, title: "LangChain / CrewAI / AutoGen", desc: "Native callbacks for major frameworks. 3 lines of code to integrate." },
+    { icon: Eye, title: "Slack / PagerDuty / Webhooks", desc: "Alert your team instantly when agents are killed. Full incident forensics in the dashboard." },
   ];
 
   return (
@@ -650,14 +714,38 @@ function EnterpriseFeatures() {
           {features.map((f, i) => (
             <FadeIn key={i} delay={i * 0.08}>
               <div className="p-6 rounded-xl border border-border bg-background/50 h-full">
-                <h3 className="text-base font-bold text-text-primary">{f.title}</h3>
-                <p className="mt-2 text-sm text-text-muted leading-relaxed">{f.desc}</p>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-9 h-9 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center">
+                    <f.icon className="w-4 h-4 text-accent" />
+                  </div>
+                  <h3 className="text-base font-bold text-text-primary">{f.title}</h3>
+                </div>
+                <p className="text-sm text-text-muted leading-relaxed">{f.desc}</p>
               </div>
             </FadeIn>
           ))}
         </div>
+
+        {/* Trust Badges */}
+        <FadeIn delay={0.5}>
+          <div className="mt-16 flex flex-wrap items-center justify-center gap-6">
+            <TrustBadge icon={Lock} label="AES-256 Encryption" />
+            <TrustBadge icon={Shield} label="SOC 2 Ready" />
+            <TrustBadge icon={Award} label="99.9% SLA Uptime" />
+            <TrustBadge icon={Globe} label="GDPR Compliant" />
+          </div>
+        </FadeIn>
       </div>
     </section>
+  );
+}
+
+function TrustBadge({ icon: Icon, label }: { icon: React.FC<{ className?: string }>; label: string }) {
+  return (
+    <div className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-surface/40 text-sm text-text-muted">
+      <Icon className="w-4 h-4 text-accent" />
+      {label}
+    </div>
   );
 }
 

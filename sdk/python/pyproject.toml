@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentbreaker"
+version = "0.1.0"
+description = "Real-time monitoring and kill-switch for AI agents. Detects loops, cost spikes, hallucination drift — then stops the agent before damage is done."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+authors = [
+    { name = "AgentBreaker", email = "eng@agentbreaker.dev" },
+]
+keywords = [
+    "ai", "agent", "monitoring", "safety", "guardrails",
+    "langchain", "crewai", "autogen", "kill-switch", "circuit-breaker",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed",
+]
+dependencies = [
+    "httpx>=0.25.0",
+]
+
+[project.optional-dependencies]
+langchain = ["langchain-core>=0.1.0"]
+crewai = ["crewai>=0.1.0"]
+dev = ["pytest>=8.0", "pytest-asyncio>=0.24", "respx>=0.21"]
+
+[project.urls]
+Homepage = "https://agentbreaker.dev"
+Documentation = "https://agentbreaker-web.onrender.com/docs"
+Repository = "https://github.com/agentbreaker/agentbreaker-python"
+"Bug Tracker" = "https://github.com/agentbreaker/agentbreaker-python/issues"
+Changelog = "https://github.com/agentbreaker/agentbreaker-python/blob/main/CHANGELOG.md"
+
+[tool.setuptools.packages.find]
+include = ["agentbreaker*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

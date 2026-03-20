@@ -41,7 +41,7 @@ class AgentBreaker:
     def __init__(
         self,
         api_key: str,
-        base_url: str = "http://localhost:8000",
+        base_url: str = "https://agentbreaker-api.onrender.com",
         timeout: float = 30.0,
     ) -> None:
         if not api_key:

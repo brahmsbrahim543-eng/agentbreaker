@@ -13,6 +13,8 @@ import AnalyticsPage from "./pages/analytics";
 import PlaygroundPage from "./pages/playground";
 import SettingsPage from "./pages/settings";
 import ROICalculator from "./pages/roi-calculator";
+import DocsPage from "./pages/docs";
+import InvestorsPage from "./pages/investors";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, loading } = useAuth();
@@ -39,6 +41,8 @@ export default function App() {
         <Routes>
           <Route path="/landing" element={<LandingPage />} />
           <Route path="/roi" element={<ROICalculator />} />
+          <Route path="/docs" element={<DocsPage />} />
+          <Route path="/investors" element={<InvestorsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<Navigate to="/overview" replace />} />
           <Route
