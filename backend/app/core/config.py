@@ -6,8 +6,8 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     """Application configuration loaded from environment variables."""
 
-    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/agentbreaker"
-    REDIS_URL: str = "redis://localhost:6379/0"
+    DATABASE_URL: str = "sqlite+aiosqlite:///./agentbreaker.db"
+    REDIS_URL: str = ""
     SECRET_KEY: str = secrets.token_urlsafe(64)
 
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440
@@ -17,6 +17,7 @@ class Settings(BaseSettings):
         "https://agentbreaker.com",
         "https://www.agentbreaker.com",
         "https://app.agentbreaker.com",
+        "https://agentbreaker-web.onrender.com",
     ]
     API_VERSION: str = "v1"
 

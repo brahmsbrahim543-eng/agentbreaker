@@ -7,10 +7,13 @@ from app.core.config import get_settings
 _redis_pool: aioredis.Redis | None = None
 
 
-async def init_redis() -> aioredis.Redis:
+async def init_redis() -> aioredis.Redis | None:
     global _redis_pool
+    redis_url = get_settings().REDIS_URL
+    if not redis_url:
+        return None
     _redis_pool = aioredis.from_url(
-        get_settings().REDIS_URL,
+        redis_url,
         encoding="utf-8",
         decode_responses=True,
     )
@@ -24,13 +27,9 @@ async def close_redis() -> None:
         _redis_pool = None
 
 
-async def get_redis() -> AsyncGenerator[aioredis.Redis, None]:
-    if _redis_pool is None:
-        raise RuntimeError("Redis not initialized. Call init_redis() first.")
+async def get_redis() -> AsyncGenerator[aioredis.Redis | None, None]:
     yield _redis_pool
 
 
-def get_redis_pool() -> aioredis.Redis:
-    if _redis_pool is None:
-        raise RuntimeError("Redis not initialized.")
+def get_redis_pool() -> aioredis.Redis | None:
     return _redis_pool
