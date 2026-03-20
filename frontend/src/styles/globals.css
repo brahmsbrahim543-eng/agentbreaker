@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0A0A0F;
+  --color-surface: #111118;
+  --color-surface-hover: #1A1A24;
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-hover: rgba(255, 255, 255, 0.1);
+  --color-text-primary: #F5F5F7;
+  --color-text-muted: #8B8B9E;
+  --color-accent: #00D4FF;
+  --color-accent-dim: rgba(0, 212, 255, 0.1);
+  --color-success: #10B981;
+  --color-success-dim: rgba(16, 185, 129, 0.1);
+  --color-danger: #EF4444;
+  --color-danger-dim: rgba(239, 68, 68, 0.1);
+  --color-warning: #F59E0B;
+  --color-warning-dim: rgba(245, 158, 11, 0.1);
+  --color-purple: #A855F7;
+  --color-purple-dim: rgba(168, 85, 247, 0.1);
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Animated counter */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-count-up {
+  animation: countUp 0.6s ease-out forwards;
+}
