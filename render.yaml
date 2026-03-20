@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: agentbreaker-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    rootDir: backend
+    region: frankfurt
+    plan: free
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: '["https://agentbreaker-web.onrender.com","http://localhost:5173"]'
+      - key: SIMULATOR_ENABLED
+        value: "true"
+
+  - type: web
+    name: agentbreaker-web
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    rootDir: frontend
+    region: frankfurt
+    plan: free

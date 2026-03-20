@@ -12,6 +12,8 @@ RUN npm ci --no-audit --no-fund
 
 # Copy source and build
 COPY . .
+ARG VITE_API_URL=https://agentbreaker-api.onrender.com
+ENV VITE_API_URL=$VITE_API_URL
 RUN npm run build
 
 # ── Stage 2: Serve ─────────────────────────────────────────────────────────────
