@@ -59,10 +59,24 @@ from sklearn.metrics.pairwise import cosine_similarity as sklearn_cosine
 from .base import BaseDetector, DetectionResult
 
 
-def _get_model():
-    """Reuse the singleton embedding model from similarity detector."""
-    from .similarity import _get_model as _sim_get_model
-    return _sim_get_model()
+def _embed_texts(texts: list[str]) -> np.ndarray:
+    """Embed texts using best available engine (transformer or TF-IDF fallback)."""
+    from .similarity import _check_transformer_available
+
+    if _check_transformer_available():
+        from .similarity import _get_model
+        model = _get_model()
+        return model.encode(texts, convert_to_numpy=True)
+    else:
+        # TF-IDF fallback — produces sparse vectors, convert to dense for cosine
+        from sklearn.feature_extraction.text import TfidfVectorizer
+        vectorizer = TfidfVectorizer(
+            max_features=5000,
+            ngram_range=(1, 3),
+            sublinear_tf=True,
+        )
+        tfidf_matrix = vectorizer.fit_transform(texts)
+        return tfidf_matrix.toarray().astype(np.float64)
 
 
 def _compute_goal_drift(
@@ -74,11 +88,9 @@ def _compute_goal_drift(
 
     Returns a dict with all computed metrics for scoring.
     """
-    model = _get_model()
-
     # Encode anchor and all outputs in a single batch for efficiency
     all_texts = [anchor_text] + outputs
-    embeddings = model.encode(all_texts, convert_to_numpy=True)
+    embeddings = _embed_texts(all_texts)
 
     anchor_emb = embeddings[0:1]  # shape (1, dim)
     output_embs = embeddings[1:]  # shape (N, dim)
@@ -141,7 +153,6 @@ def _compute_goal_drift(
         "sudden_drops": sudden_drops,
         "current_alignment": current_alignment,
         "pivot_discount": pivot_discount,
-        "embeddings": embeddings.tolist(),
     }
 
 
